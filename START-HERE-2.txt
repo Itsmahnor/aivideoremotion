@@ -1,0 +1,24 @@
+AIVIDEO update 2: working app (wizard -> Claude plan -> live preview -> MP4)
+
+WHAT'S NEW
+- API: uploads, Claude screenshot analysis, plan endpoint, projects (JSON files), MP4 render queue
+- Web: 5-step wizard, live Remotion Player preview, render + download, save/open projects
+- Shared planner used by both the API and the playground
+
+SETUP (PowerShell, repo root). Unzip over your repo and overwrite, then:
+1) Remove old pieces:
+     Remove-Item -Recurse -Force apps/web/public -ErrorAction SilentlyContinue
+   (the web app now uses packages/video/public)
+2) npm install
+3) Copy-Item apps/api/.env.example apps/api/.env
+   - Test for free first: set MOCK_AI=1
+   - For real Claude: add ANTHROPIC_API_KEY=... and set MOCK_AI=0
+4) npm run typecheck ; npm test ; npm run check:versions
+5) Terminal A: npm run dev:api      (http://localhost:4000)
+   Terminal B: npm run dev:web      (http://localhost:5173)
+6) Open http://localhost:5173 -> "Load sample project" -> Generate -> Preview -> Render draft MP4
+   (the first render downloads Chrome and bundles the video, so it takes a few minutes once)
+
+NOTES
+- MongoDB is not used yet: projects are JSON files in apps/api/storage (ignored by git).
+- Costs: with a key, each plan shows tokens and an approximate cost.

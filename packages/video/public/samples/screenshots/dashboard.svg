@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Inter, Arial, sans-serif">
+  <rect width="1600" height="1000" fill="#F1F5F9"/>
+  <rect width="250" height="1000" fill="#FFFFFF"/>
+  <rect x="32" y="36" width="40" height="40" rx="12" fill="#4F46E5"/>
+  <text x="86" y="64" font-size="26" font-weight="700" fill="#0F172A">Pulse</text>
+  <g font-size="20" fill="#475569">
+    <rect x="20" y="130" width="210" height="48" rx="12" fill="#EEF2FF"/><text x="48" y="161" fill="#4F46E5" font-weight="600">Overview</text>
+    <text x="48" y="221">Funnels</text><text x="48" y="281">Retention</text><text x="48" y="341">Segments</text><text x="48" y="401">Settings</text>
+  </g>
+  <text x="300" y="86" font-size="34" font-weight="700" fill="#0F172A">Overview</text>
+  <rect x="1180" y="48" width="260" height="48" rx="24" fill="#FFFFFF"/><text x="1212" y="79" font-size="18" fill="#94A3B8">Search events</text>
+  <circle cx="1520" cy="72" r="26" fill="#F59E0B"/>
+  <g>
+    <rect x="300" y="140" width="270" height="130" rx="18" fill="#FFFFFF"/><text x="326" y="186" font-size="18" fill="#64748B">Active users</text><text x="326" y="240" font-size="46" font-weight="700" fill="#0F172A">24.8k</text>
+    <rect x="590" y="140" width="270" height="130" rx="18" fill="#FFFFFF"/><text x="616" y="186" font-size="18" fill="#64748B">Conversion</text><text x="616" y="240" font-size="46" font-weight="700" fill="#0F172A">3.9%</text>
+    <rect x="880" y="140" width="270" height="130" rx="18" fill="#FFFFFF"/><text x="906" y="186" font-size="18" fill="#64748B">Revenue</text><text x="906" y="240" font-size="46" font-weight="700" fill="#0F172A">$48.2k</text>
+  </g>
+  <rect x="300" y="300" width="850" height="620" rx="18" fill="#FFFFFF"/>
+  <text x="332" y="352" font-size="24" font-weight="600" fill="#0F172A">Weekly active users</text>
+  <path d="M332 800 C420 740 480 760 560 690 S700 640 780 600 S940 560 1010 470 S1090 420 1120 400" fill="none" stroke="#4F46E5" stroke-width="6" stroke-linecap="round"/>
+  <path d="M332 800 C420 740 480 760 560 690 S700 640 780 600 S940 560 1010 470 S1090 420 1120 400 L1120 880 L332 880 Z" fill="#4F46E5" opacity="0.08"/>
+  <rect x="1090" y="140" width="0" height="0"/>
+  <rect x="1180" y="180" width="300" height="560" rx="18" fill="#FFFFFF"/>
+  <text x="1208" y="230" font-size="24" font-weight="700" fill="#0F172A">Alerts</text>
+  <rect x="1204" y="262" width="252" height="150" rx="14" fill="#FEF2F2" stroke="#FCA5A5"/>
+  <circle cx="1230" cy="292" r="8" fill="#EF4444"/><text x="1248" y="298" font-size="18" font-weight="600" fill="#991B1B">Signups dropped 18%</text>
+  <text x="1224" y="336" font-size="16" fill="#7F1D1D">Likely cause: checkout error</text>
+  <text x="1224" y="372" font-size="16" fill="#7F1D1D">Started 2h ago</text>
+  <rect x="1204" y="434" width="252" height="150" rx="14" fill="#FEF2F2" stroke="#FCA5A5"/>
+  <circle cx="1230" cy="464" r="8" fill="#EF4444"/><text x="1248" y="470" font-size="18" font-weight="600" fill="#991B1B">Latency up 2.4x</text>
+  <text x="1224" y="508" font-size="16" fill="#7F1D1D">Likely cause: new release</text>
+  <text x="1224" y="544" font-size="16" fill="#7F1D1D">Started 40m ago</text>
+</svg>

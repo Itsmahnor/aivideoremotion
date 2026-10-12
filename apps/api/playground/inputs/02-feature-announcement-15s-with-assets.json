@@ -1,0 +1,61 @@
+{
+  "brand": {
+    "name": "Pulse Analytics",
+    "tone": "sharp, technical, modern",
+    "motionStyle": "energetic",
+    "donts": [
+      "no buzzwords like 'revolutionary'"
+    ],
+    "look": "dark"
+  },
+  "subtype": "feature-announcement",
+  "durationSec": 15,
+  "aspectRatio": "16:9",
+  "audience": "general",
+  "goal": "awareness",
+  "tone": "technical",
+  "productName": "Pulse Analytics",
+  "oneLiner": "Product analytics that explains itself",
+  "problem": "Metrics change and nobody knows why",
+  "keyFeatures": [
+    {
+      "title": "Anomaly Alerts",
+      "description": "Get notified when a key metric moves unexpectedly, with the likely cause"
+    },
+    {
+      "title": "Slack digest",
+      "description": "Daily summary delivered to your team channel"
+    }
+  ],
+  "cta": {
+    "type": "website",
+    "text": "See it in action",
+    "url": "pulse.example.com/alerts"
+  },
+  "userPrompt": "We just launched Anomaly Alerts. Show the alert panel in the dashboard. Keep it fast and punchy.",
+  "assets": [
+    {
+      "id": "dash",
+      "kind": "screenshot",
+      "label": "Dashboard with the new Anomaly Alerts panel",
+      "description": "Light analytics dashboard: left sidebar, a line chart of weekly active users, and on the right a panel titled Alerts listing two red anomaly cards.",
+      "url": "samples/screenshots/dashboard.svg",
+      "regions": [
+        {
+          "label": "Alerts panel",
+          "x": 0.68,
+          "y": 0.18,
+          "w": 0.28,
+          "h": 0.55
+        },
+        {
+          "label": "Main chart",
+          "x": 0.2,
+          "y": 0.2,
+          "w": 0.45,
+          "h": 0.5
+        }
+      ]
+    }
+  ]
+}

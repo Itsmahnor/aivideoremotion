@@ -1,0 +1,74 @@
+{
+  "title": "Flowly: calm agency work",
+  "scenes": [
+    {
+      "id": "s1",
+      "template": "HookStatement",
+      "purpose": "Open with the pain: client work getting lost",
+      "durationSec": 5.5,
+      "props": {
+        "line": "Client work keeps getting lost",
+        "emphasisWords": ["lost"],
+        "subline": "Across chats, sheets and email",
+        "style": "word-by-word"
+      }
+    },
+    {
+      "id": "s2",
+      "template": "ProductReveal",
+      "purpose": "Turning point: introduce Flowly",
+      "durationSec": 5,
+      "props": {
+        "productName": "Flowly",
+        "tagline": "Project management built for small agencies",
+        "variant": "rise"
+      }
+    },
+    {
+      "id": "s3",
+      "template": "FeatureSpotlight",
+      "purpose": "Answer the chaos with one shared board",
+      "durationSec": 6,
+      "props": {
+        "icon": "layers",
+        "title": "One shared board",
+        "description": "Every client project, task and deadline in one place",
+        "layout": "right"
+      }
+    },
+    {
+      "id": "s4",
+      "template": "FeatureSpotlight",
+      "purpose": "Remove email chains with one-click approvals",
+      "durationSec": 6,
+      "props": {
+        "icon": "users",
+        "title": "Client approvals",
+        "description": "Clients approve work with one click, no email chains",
+        "layout": "left"
+      }
+    },
+    {
+      "id": "s5",
+      "template": "FeatureSpotlight",
+      "purpose": "Show profit visibility with time tracking",
+      "durationSec": 6,
+      "props": {
+        "icon": "clock",
+        "title": "Time tracking",
+        "description": "Track hours per project and see profit at a glance",
+        "layout": "right"
+      }
+    },
+    {
+      "id": "s6",
+      "template": "CTAEndCard",
+      "purpose": "Call to action",
+      "durationSec": 4,
+      "props": {
+        "cta": "Start your free trial",
+        "url": "flowly.example.com"
+      }
+    }
+  ]
+}

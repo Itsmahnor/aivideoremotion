@@ -1,0 +1,69 @@
+{
+  "brand": {
+    "name": "InvoiceNest",
+    "tone": "warm, reassuring, simple",
+    "motionStyle": "playful",
+    "donts": [
+      "no accounting jargon"
+    ],
+    "look": "light"
+  },
+  "subtype": "how-it-works",
+  "durationSec": 60,
+  "aspectRatio": "9:16",
+  "audience": "general",
+  "goal": "signups",
+  "tone": "friendly",
+  "productName": "InvoiceNest",
+  "oneLiner": "Get paid faster, without chasing clients",
+  "problem": "Freelancers waste hours writing invoices and chasing late payments",
+  "keyFeatures": [
+    {
+      "title": "Connect your client",
+      "description": "Add a client once and reuse their details"
+    },
+    {
+      "title": "Build the invoice",
+      "description": "Pick a template, add items, and the totals are done for you"
+    },
+    {
+      "title": "Send it",
+      "description": "Email it or share a pay link in one click"
+    },
+    {
+      "title": "Get paid",
+      "description": "Automatic reminders until the invoice is paid"
+    }
+  ],
+  "cta": {
+    "type": "trial",
+    "text": "Send your first invoice free",
+    "url": "invoicenest.example.com"
+  },
+  "userPrompt": "Explain the 4 steps from adding a client to getting paid. Friendly and simple, for people who hate paperwork.",
+  "assets": [
+    {
+      "id": "builder",
+      "kind": "screenshot",
+      "label": "Invoice builder screen",
+      "description": "Clean invoice editor with line items, a total at the bottom right and a green Send button.",
+      "url": "samples/screenshots/invoice-builder.svg",
+      "regions": [
+        {
+          "label": "Line items",
+          "x": 0.08,
+          "y": 0.3,
+          "w": 0.84,
+          "h": 0.35
+        },
+        {
+          "label": "Send button",
+          "x": 0.62,
+          "y": 0.78,
+          "w": 0.3,
+          "h": 0.1
+        }
+      ]
+    }
+  ]
+}

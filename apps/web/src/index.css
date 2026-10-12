@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens (RGB triplets so Tailwind opacity modifiers work). */
+@layer base {
+  :root {
+    --canvas: 244 245 247;
+    --surface: 255 255 255;
+    --sunken: 248 249 251;
+    --ink: 17 19 26;
+    --muted: 88 94 110;
+    --faint: 136 142 156;
+    --line: 226 228 234;
+    --signal: 75 59 255;
+    --signal-strong: 58 43 224;
+    --signal-soft: 238 236 255;
+    --ok: 16 120 74;
+    --ok-soft: 231 246 238;
+    --warn: 150 88 0;
+    --warn-soft: 254 244 225;
+    --bad: 190 32 42;
+    --bad-soft: 253 236 237;
+    --rail: 17 19 24;
+    --rail-ink: 236 238 243;
+    --rail-muted: 150 156 172;
+    --rail-line: 38 41 50;
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply m-0 bg-canvas font-sans text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  /* One visible, consistent focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--signal));
+    outline-offset: 2px;
+  }
+
+  input[type='color'] {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  input[type='color']::-webkit-color-swatch {
+    border: none;
+    border-radius: 6px;
+  }
+
+  dialog::backdrop {
+    background: rgb(17 19 26 / 0.45);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

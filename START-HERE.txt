@@ -1,0 +1,16 @@
+AIVIDEO update: Prompts 4-9 (SaaS contract, 6 templates, DynamicVideo) + Claude playground
+
+1) Unzip over your repo root (the folder with package.json). Say yes to overwrite.
+2) Remove old files (PowerShell, from repo root):
+     git rm -r --cached packages/video/build
+     Remove-Item -Recurse -Force packages/video/build
+     Remove-Item packages/schema/src/fixtures/brief-real-estate-16x9.json, packages/schema/src/fixtures/brief-real-estate-9x16.json
+     Remove-Item apps/api/src/skills/playbooks/README.md
+3) npm install
+4) npm run typecheck ; npm test ; npm run check:versions     (all must pass)
+5) npm run studio    -> open Scene-HookStatement-16x9 etc., and DynamicVideo-Fixture
+6) Claude test:
+     Copy-Item apps/api/.env.example apps/api/.env     (then add ANTHROPIC_API_KEY)
+     npm run playground -w @ai-video-studio/api -- inputs/01-problem-solution-30s.json
+     npm run sync:playground
+     npm run studio    -> open Playground-01-problem-solution-30s

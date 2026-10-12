@@ -1,0 +1,21 @@
+{
+  "name": "Pulse Analytics",
+  "logoUrl": "samples/logos/pulse.svg",
+  "colors": {
+    "primary": "#8B5CF6",
+    "secondary": "#22D3EE",
+    "accent": "#34D399",
+    "background": "#0B1020",
+    "text": "#F1F5F9"
+  },
+  "fonts": {
+    "heading": "Space Grotesk",
+    "body": "Inter"
+  },
+  "tone": "Sharp, technical and modern",
+  "motionStyle": "energetic",
+  "rules": {
+    "dos": ["Use concrete nouns", "Keep sentences short"],
+    "donts": ["No buzzwords like revolutionary"]
+  }
+}

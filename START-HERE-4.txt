@@ -1,0 +1,35 @@
+AIVIDEO update 4: professional 5-step frontend (frontend only, no new backend)
+
+WHAT CHANGED
+- New guided workflow: 1 Product -> 2 Customize -> 3 Script & storyboard -> 4 Generate -> 5 Export
+- Central workflow state machine with explicit states (Draft, Validating, Ready for review,
+  Awaiting approval, Approved, Generating, Completed, Failed). Steps cannot be skipped;
+  every transition is checked in the state machine, not only by disabled buttons.
+- Editing product details, the storyboard or the format clears the script approval.
+  Editing the storyboard or brand makes an old render "out of date" (download disabled).
+- Inline validation (trimmed, min/max lengths, required fields, URL check), focus on first error.
+- Any brand color via picker, HEX or RGB, with contrast warnings; custom gradient; style preview.
+- Editable storyboard: on-screen text per template, visual direction, narration, timing,
+  script part, screenshot, reorder, add, delete (with confirmation), approve.
+- Script sources: Claude via your API key, Claude chat copy/paste (no key), or a template draft
+  that is clearly labelled "not AI". No fake AI output, no fake renders, no fake download links.
+- Draft autosaves in the browser; damaged or old saved data is detected and set aside safely.
+- Voice-over and captions: preferences are saved, but no provider is connected yet (shown clearly).
+- Shared storyboard rules moved to packages/schema/src/storyboard.ts (API and web use the same code).
+- Unit tests for validation, colors, workflow transitions, invalidation, persistence and services.
+
+INSTALL (PowerShell, repo root)
+Option A - clean (recommended): unzip aivideo-full-update-4.zip into a NEW folder and use that.
+Option B - over your repo: unzip aivideo-update-4-patch.zip over the repo, then delete the old files
+          this update replaces (they no longer compile):
+  Remove-Item apps/web/src/steps/BrandStep.tsx, apps/web/src/steps/SelectStep.tsx, apps/web/src/steps/DescribeStep.tsx, apps/web/src/steps/UploadStep.tsx -ErrorAction SilentlyContinue
+  Remove-Item apps/web/src/lib/api.ts, apps/web/src/lib/defaults.ts, apps/web/src/lib/validate.ts, apps/web/src/components/ui/card.tsx -ErrorAction SilentlyContinue
+
+THEN
+1) npm install
+2) npm run typecheck ; npm test ; npm run build
+3) Terminal A: npm run dev:api   (optional: needed for AI script, uploads and rendering)
+   Terminal B: npm run dev:web   -> http://localhost:5173
+4) Menu "Load sample inputs" fills the forms with a fictional product so you can try the flow.
+
+Details: apps/web/README.md and apps/web/INTEGRATION.md

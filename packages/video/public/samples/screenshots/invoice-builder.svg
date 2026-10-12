@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Inter, Arial, sans-serif">
+  <rect width="1600" height="1000" fill="#F8FAFC"/>
+  <rect x="120" y="60" width="1360" height="880" rx="24" fill="#FFFFFF"/>
+  <text x="170" y="140" font-size="40" font-weight="700" fill="#0F172A">Invoice #0042</text>
+  <text x="170" y="184" font-size="22" fill="#64748B">Bill to: Northwind Studio</text>
+  <rect x="170" y="240" width="1260" height="56" rx="12" fill="#F1F5F9"/>
+  <g font-size="20" font-weight="600" fill="#475569"><text x="200" y="276">Item</text><text x="900" y="276">Qty</text><text x="1060" y="276">Rate</text><text x="1260" y="276">Total</text></g>
+  <g font-size="22" fill="#0F172A">
+    <text x="200" y="350">Brand identity design</text><text x="900" y="350">1</text><text x="1060" y="350">$1,200</text><text x="1260" y="350">$1,200</text>
+    <line x1="170" y1="378" x2="1430" y2="378" stroke="#E2E8F0"/>
+    <text x="200" y="430">Landing page</text><text x="900" y="430">1</text><text x="1060" y="430">$900</text><text x="1260" y="430">$900</text>
+    <line x1="170" y1="458" x2="1430" y2="458" stroke="#E2E8F0"/>
+    <text x="200" y="510">Revisions</text><text x="900" y="510">3</text><text x="1060" y="510">$150</text><text x="1260" y="510">$450</text>
+  </g>
+  <text x="1020" y="700" font-size="22" fill="#64748B">Total due</text>
+  <text x="1260" y="704" font-size="40" font-weight="700" fill="#0F172A">$2,550</text>
+  <rect x="990" y="780" width="440" height="96" rx="20" fill="#16A34A"/>
+  <text x="1210" y="840" font-size="30" font-weight="700" fill="#FFFFFF" text-anchor="middle">Send invoice</text>
+</svg>

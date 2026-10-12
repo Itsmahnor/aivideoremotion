@@ -1,0 +1,9 @@
+AIVIDEO update 3: use Claude without an API key (copy/paste) + fixes
+
+1) Unzip over your repo (overwrite). No cleanup needed.
+2) Restart: npm run dev:api  and  npm run dev:web
+3) Open http://localhost:5173 -> Load sample project -> scroll to "No API key? Use Claude in the chat"
+   - Click "Copy prompt for Claude chat", paste it into a new chat on claude.ai, copy Claude's JSON reply
+   - Paste it in the box, click "Use pasted plan"
+   Or paste examples/flowly-plan.json to try it instantly.
+Fixes: brand logo is now optional; the plan table no longer repeats highlighted words.

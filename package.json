@@ -1,0 +1,22 @@
+{
+  "name": "ai-video-studio",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace @ai-video-studio/web run dev",
+    "dev:api": "npm --workspace @ai-video-studio/api run dev",
+    "studio": "npm --workspace @ai-video-studio/video run studio",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "check:versions": "node scripts/check-remotion-versions.mjs",
+    "sync:playground": "node scripts/sync-playground.mjs",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

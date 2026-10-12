@@ -1,0 +1,50 @@
+{
+  "brand": {
+    "name": "Flowly",
+    "tone": "friendly, clear, confident",
+    "motionStyle": "calm",
+    "donts": [
+      "no exclamation marks",
+      "no jargon"
+    ],
+    "look": "light"
+  },
+  "subtype": "problem-solution",
+  "durationSec": 30,
+  "aspectRatio": "16:9",
+  "audience": "founders",
+  "goal": "signups",
+  "tone": "friendly",
+  "productName": "Flowly",
+  "oneLiner": "Project management built for small agencies",
+  "problem": "Client work gets lost across chats, sheets and email",
+  "keyFeatures": [
+    {
+      "title": "One shared board",
+      "description": "Every client project, task and deadline in one place"
+    },
+    {
+      "title": "Client approvals",
+      "description": "Clients approve work with one click, no email chains"
+    },
+    {
+      "title": "Time tracking",
+      "description": "Track hours per project and see profit at a glance"
+    },
+    {
+      "title": "Templates",
+      "description": "Reuse your onboarding checklist for every new client"
+    }
+  ],
+  "proof": {
+    "stats": [],
+    "customerCount": ""
+  },
+  "cta": {
+    "type": "trial",
+    "text": "Start your free trial",
+    "url": "flowly.example.com"
+  },
+  "userPrompt": "Make it feel calm and organized, the opposite of the chaos agencies live in. Focus on approvals and the shared board.",
+  "assets": []
+}

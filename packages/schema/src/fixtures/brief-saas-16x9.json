@@ -1,0 +1,22 @@
+{
+  "videoType": "saas-explainer",
+  "subtype": "problem-solution",
+  "aspectRatio": "16:9",
+  "durationSec": 30,
+  "userPrompt": "Make it feel calm and organized, the opposite of the chaos agencies live in. Focus on approvals and the shared board.",
+  "assets": [],
+  "details": {
+    "productName": "Flowly",
+    "oneLiner": "Project management built for small agencies",
+    "problem": "Client work gets lost across chats, sheets and email",
+    "keyFeatures": [
+      {"title": "One shared board", "description": "Every client project, task and deadline in one place"},
+      {"title": "Client approvals", "description": "Clients approve work with one click, no email chains"},
+      {"title": "Time tracking", "description": "Track hours per project and see profit at a glance"}
+    ],
+    "audience": "founders",
+    "goal": "signups",
+    "tone": "friendly",
+    "cta": {"type": "trial", "text": "Start your free trial", "url": "flowly.example.com"}
+  }
+}

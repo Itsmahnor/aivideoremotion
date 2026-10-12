@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "meta": {"fps": 30, "width": 1920, "height": 1080},
+  "scenes": [
+    {
+      "id": "s1",
+      "template": "HookStatement",
+      "durationInFrames": 135,
+      "props": {
+        "line": "Client work gets lost across chats, sheets and email",
+        "emphasisWords": ["lost"],
+        "style": "word-by-word"
+      },
+      "transitionOut": {"type": "fade", "durationInFrames": 12}
+    },
+    {
+      "id": "s2",
+      "template": "ProductReveal",
+      "durationInFrames": 150,
+      "props": {
+        "productName": "Flowly",
+        "tagline": "Project management built for small agencies",
+        "variant": "rise"
+      },
+      "transitionOut": {"type": "slide", "durationInFrames": 12}
+    },
+    {
+      "id": "s3",
+      "template": "ScreenshotShowcase",
+      "durationInFrames": 180,
+      "props": {
+        "screenshotUrl": "samples/screenshots/dashboard.svg",
+        "focusRegion": {"x": 0.68, "y": 0.18, "w": 0.28, "h": 0.55},
+        "caption": "Every deadline and approval in one place",
+        "callout": {"label": "Alerts panel", "position": "auto"},
+        "showCursor": true,
+        "device": "browser"
+      },
+      "transitionOut": {"type": "wipe", "durationInFrames": 12}
+    },
+    {
+      "id": "s4",
+      "template": "FeatureSpotlight",
+      "durationInFrames": 150,
+      "props": {
+        "icon": "users",
+        "title": "Client approvals",
+        "description": "Clients approve work with one click, no email chains",
+        "layout": "right"
+      },
+      "transitionOut": {"type": "fade", "durationInFrames": 12}
+    },
+    {
+      "id": "s5",
+      "template": "StepFlow",
+      "durationInFrames": 180,
+      "props": {
+        "title": "Up and running in 3 steps",
+        "steps": [
+          {"label": "Add your clients"},
+          {"label": "Share a board", "description": "Invite the team and the client"},
+          {"label": "Approve and ship"}
+        ]
+      },
+      "transitionOut": {"type": "slide", "durationInFrames": 12}
+    },
+    {
+      "id": "s6",
+      "template": "CTAEndCard",
+      "durationInFrames": 120,
+      "props": {
+        "cta": "Start your free trial",
+        "url": "flowly.example.com",
+        "subline": "No credit card needed"
+      }
+    }
+  ]
+}

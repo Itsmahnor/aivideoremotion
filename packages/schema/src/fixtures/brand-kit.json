@@ -1,0 +1,21 @@
+{
+  "name": "Flowly",
+  "logoUrl": "samples/logos/flowly.svg",
+  "colors": {
+    "primary": "#4F46E5",
+    "secondary": "#0EA5E9",
+    "accent": "#F59E0B",
+    "background": "#F8FAFC",
+    "text": "#0F172A"
+  },
+  "fonts": {
+    "heading": "Plus Jakarta Sans",
+    "body": "Inter"
+  },
+  "tone": "Friendly, clear and confident",
+  "motionStyle": "calm",
+  "rules": {
+    "dos": ["Use plain words", "Lead with the benefit"],
+    "donts": ["No exclamation marks", "No jargon"]
+  }
+}
