@@ -45,6 +45,7 @@ const OUTPUT_SHAPE = `JSON shape:
 export const buildUserMessage = ({brand, brief}: PlanInput): string => {
   const [min, max] = SCENE_COUNT[brief.durationSec];
   const payload = {
+    
     brand: {name: brand.name, tone: brand.tone, motionStyle: brand.motionStyle, donts: brand.rules.donts},
     videoType: brief.subtype,
     targetDurationSec: brief.durationSec,
@@ -65,7 +66,7 @@ export const buildUserMessage = ({brand, brief}: PlanInput): string => {
       regionLabels: asset.focusRegions.map((region) => region.label),
     })),
   };
-  return `Create the video plan for this brief.\nScene count must be ${min}-${max}. Total duration must be within 10% of ${brief.durationSec}s.\nFirst scene: HookStatement or ProductReveal. Last scene: CTAEndCard (only once).\n\nBRIEF:\n${JSON.stringify(payload, null, 2)}\n\n${OUTPUT_SHAPE}`;
+   return `Create the video plan for this brief.\nScene count must be ${min}-${max}. Total duration must be within 10% of ${brief.durationSec}s.\nFirst scene: HookStatement, ProductReveal or CustomScene. Last scene: CTAEndCard (only once).\n\nBRIEF:\n${JSON.stringify(payload, null, 2)}\n\n${OUTPUT_SHAPE}`;
 };
 
 // ---------------------------------------------------------------- mock planner (free; tests the whole app without Claude)

@@ -14,7 +14,47 @@ export const TEMPLATE_NAMES = [
   'FeatureSpotlight',
   'StepFlow',
   'CTAEndCard',
+  'CustomScene',
 ] as const;
+export const LAYER_TYPES = ['text', 'shape', 'image', 'device', 'counter'] as const;
+export const LAYER_COLORS = ['text', 'muted', 'primary', 'secondary', 'accent', 'background', 'surface', 'onPrimary', 'onAccent'] as const;
+export const ENTER_TYPES = ['fade', 'slide-up', 'slide-left', 'slide-right', 'pop', 'none'] as const;
+export const TEXT_SIZES = ['caption', 'body', 'title', 'headline', 'display'] as const;
+
+const percent = (what: string) => z.number().min(0).max(100).describe(what);
+
+export const customLayerSchema = z.object({
+  type: z
+    .enum(LAYER_TYPES)
+    .describe('text = words. shape = decoration or card behind other layers. image = an uploaded asset. device = an uploaded asset inside a browser or phone frame. counter = a number that counts up.'),
+  x: percent('Left edge, percent of the safe area width (0-100)'),
+  y: percent('Top edge, percent of the safe area height (0-100)'),
+  w: z.number().min(1).max(100).describe('Width, percent of the safe area width. x + w must be at most 100.'),
+  h: z.number().min(1).max(100).describe('Height, percent of the safe area height. y + h must be at most 100.'),
+  text: z.string().max(80).optional().describe('Words to show. Required for type "text". Max 12 words.'),
+  size: z.enum(TEXT_SIZES).default('title').describe('Text or counter size. display is the biggest.'),
+  align: z.enum(['left', 'center', 'right']).default('left').describe('Text alignment inside its box'),
+  color: z
+    .enum(LAYER_COLORS)
+    .default('text')
+    .describe('Brand color token, never a hex code. Text on a primary shape needs onPrimary; on an accent shape needs onAccent.'),
+  shape: z.enum(['rect', 'pill', 'circle']).default('rect').describe('Shape kind (type "shape" only)'),
+  opacity: z.number().min(0).max(1).default(1).describe('1 = solid. Use 0.1 to 0.3 for soft decorations.'),
+  value: z.number().optional().describe('Final number for type "counter". Only use numbers the user provided.'),
+  decimals: z.number().int().min(0).max(2).default(0).describe('Decimals shown on a counter'),
+  prefix: z.string().max(4).optional().describe('Before the counter number, e.g. "$"'),
+  suffix: z.string().max(6).optional().describe('After the counter number, e.g. "x" or "%"'),
+  device: z.enum(['browser', 'phone']).default('browser').describe('Frame for type "device"'),
+  assetId: z.string().optional().describe('Id from the asset list. Only for image and device layers.'),
+  screenshotUrl: z.string().optional().describe('Filled by the system from assetId. Never write this yourself.'),
+  enter: z.enum(ENTER_TYPES).default('fade').describe('Entrance. slide-left enters from the left side, slide-right from the right side.'),
+  delaySec: z.number().min(0).max(5).default(0).describe('Seconds before this layer appears. Stagger layers by 0.3 to 0.6s.'),
+});
+
+export const customSceneProps = z.object({
+  background: z.enum(['gradient', 'grid', 'dots']).default('gradient').describe('Animated brand background behind the layers'),
+  layers: z.array(customLayerSchema).min(1).max(12).describe('Drawn in order: first layer is at the back, last layer is on top. Max 12.'),
+});
 export type TemplateName = (typeof TEMPLATE_NAMES)[number];
 
 export const focusRegionSchema = z
@@ -97,6 +137,7 @@ export const TEMPLATE_PROPS: Record<TemplateName, z.ZodType> = {
   FeatureSpotlight: featureSpotlightProps,
   StepFlow: stepFlowProps,
   CTAEndCard: ctaEndCardProps,
+    CustomScene: customSceneProps,
 };
 
 export type TemplateMeta = {
@@ -145,12 +186,20 @@ export const TEMPLATE_META: Record<TemplateName, TemplateMeta> = {
     usesScreenshot: false,
     maxWords: 10,
   },
+    CustomScene: {
+    description: 'A free layout built from layers (text, shape, image, device, counter) placed by percent, each with its own entrance animation.',
+    whenToUse:
+      'When the user asks for a specific layout or idea that no other template shows. Prefer a fixed template when one fits. Never use it for the final call to action.',
+    usesScreenshot: false,
+    maxWords: 30,
+  },
 };
 
 // ---------- on-screen word counting (for pacing checks) ----------
 
 const NON_TEXT_KEYS = new Set([
   'screenshotUrl', 'url', 'icon', 'style', 'variant', 'layout', 'device', 'position', 'showCursor', 'focusRegion',
+  'size', 'align', 'color', 'shape', 'enter', 'assetId', 'background', 'type',
 ]);
 
 export const onScreenWords = (value: unknown, key = ''): number => {

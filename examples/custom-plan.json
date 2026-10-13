@@ -1,0 +1,61 @@
+{
+  "title": "Flowly: custom layout test",
+  "scenes": [
+    {
+      "id": "s1",
+      "template": "HookStatement",
+      "purpose": "Open with the pain",
+      "durationSec": 5.5,
+      "props": {"line": "Client work keeps getting lost", "emphasisWords": ["lost"], "style": "word-by-word"}
+    },
+    {
+      "id": "s2",
+      "template": "ProductReveal",
+      "purpose": "Introduce Flowly",
+      "durationSec": 5,
+      "props": {"productName": "Flowly", "tagline": "Project management built for small agencies", "variant": "rise"}
+    },
+    {
+      "id": "s3",
+      "template": "CustomScene",
+      "purpose": "Text left, product screen right",
+      "durationSec": 7,
+      "props": {
+        "background": "grid",
+        "layers": [
+          {"type": "text", "text": "Every project, task and deadline", "x": 0, "y": 20, "w": 46, "h": 38, "size": "headline", "enter": "slide-right"},
+          {"type": "text", "text": "in one shared board", "x": 0, "y": 60, "w": 46, "h": 14, "size": "title", "color": "primary", "enter": "fade", "delaySec": 0.4},
+          {"type": "device", "device": "browser", "x": 52, "y": 8, "w": 48, "h": 84, "enter": "slide-left", "delaySec": 0.2}
+        ]
+      }
+    },
+    {
+      "id": "s4",
+      "template": "CustomScene",
+      "purpose": "Three feature cards",
+      "durationSec": 8,
+      "props": {
+        "background": "dots",
+        "layers": [
+          {"type": "text", "text": "Built for small agencies", "x": 0, "y": 2, "w": 100, "h": 18, "size": "headline", "align": "center", "enter": "slide-up"},
+          {"type": "shape", "shape": "rect", "color": "surface", "x": 2, "y": 30, "w": 30, "h": 46, "enter": "pop", "delaySec": 0.3},
+          {"type": "text", "text": "Shared board", "x": 5, "y": 38, "w": 24, "h": 14, "size": "title", "enter": "fade", "delaySec": 0.5},
+          {"type": "text", "text": "Every project in one place", "x": 5, "y": 54, "w": 24, "h": 18, "size": "body", "color": "muted", "enter": "fade", "delaySec": 0.6},
+          {"type": "shape", "shape": "rect", "color": "surface", "x": 35, "y": 30, "w": 30, "h": 46, "enter": "pop", "delaySec": 0.7},
+          {"type": "text", "text": "Client approvals", "x": 38, "y": 38, "w": 24, "h": 14, "size": "title", "enter": "fade", "delaySec": 0.9},
+          {"type": "text", "text": "One click, no email chains", "x": 38, "y": 54, "w": 24, "h": 18, "size": "body", "color": "muted", "enter": "fade", "delaySec": 1.0},
+          {"type": "shape", "shape": "rect", "color": "surface", "x": 68, "y": 30, "w": 30, "h": 46, "enter": "pop", "delaySec": 1.1},
+          {"type": "text", "text": "Time tracking", "x": 71, "y": 38, "w": 24, "h": 14, "size": "title", "enter": "fade", "delaySec": 1.3},
+          {"type": "text", "text": "See profit at a glance", "x": 71, "y": 54, "w": 24, "h": 18, "size": "body", "color": "muted", "enter": "fade", "delaySec": 1.4}
+        ]
+      }
+    },
+    {
+      "id": "s5",
+      "template": "CTAEndCard",
+      "purpose": "Call to action",
+      "durationSec": 4,
+      "props": {"cta": "Start your free trial", "url": "flowly.example.com"}
+    }
+  ]
+}

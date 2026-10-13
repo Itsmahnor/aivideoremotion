@@ -165,6 +165,7 @@ const BLANK_PROPS: Record<TemplateName, Record<string, unknown>> = {
   FeatureSpotlight: {icon: 'sparkle', title: '', description: '', layout: 'stacked'},
   StepFlow: {steps: [{label: ''}, {label: ''}]},
   CTAEndCard: {cta: '', url: ''},
+    CustomScene: {background: 'gradient', layers: [{type: 'text', text: '', x: 10, y: 35, w: 80, h: 30, size: 'headline', color: 'text', enter: 'fade', delaySec: 0}]},
 };
 
 export const blankScene = (template: TemplateName, config: ProjectConfig): EditableScene => {

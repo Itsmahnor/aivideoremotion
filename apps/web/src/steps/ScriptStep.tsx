@@ -429,7 +429,8 @@ const ScriptEditor: FC = () => {
             required
             value={addTemplate}
             disabled={locked}
-            options={TEMPLATE_NAMES.map((t) => ({value: t, label: TEMPLATE_LABEL[t]}))}
+          
+            options={TEMPLATE_NAMES.filter((t) => t !== 'CustomScene').map((t) => ({value: t, label: TEMPLATE_LABEL[t]}))}
             onChange={(v) => setAddTemplate(v as TemplateName)}
           />
           <Button

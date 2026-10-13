@@ -82,6 +82,7 @@ export const DEFAULT_SECTION: Record<TemplateName, ScriptSection> = {
   FeatureSpotlight: 'feature',
   StepFlow: 'feature',
   CTAEndCard: 'cta',
+    CustomScene: 'feature',
 };
 
 export const SECTION_LABEL: Record<ScriptSection, string> = {

@@ -42,7 +42,23 @@ export const MOTION_TRANSITION = {
 export const FPS = 30;
 
 // ---------------------------------------------------------------- checks
+type StoryScene = Storyboard['scenes'][number];
 
+const checkCustomScene = (scene: StoryScene, assets: Brief['assets'], errors: string[]): void => {
+  const layers = Array.isArray(scene.props.layers) ? (scene.props.layers as Record<string, unknown>[]) : [];
+  layers.forEach((layer, index) => {
+    const label = `Scene ${scene.id} layer ${index + 1} (${String(layer.type)})`;
+    const [x, y, w, h] = ['x', 'y', 'w', 'h'].map((key) => Number(layer[key]));
+    if (x + w > 100.5 || y + h > 100.5) errors.push(`${label}: the box leaves the screen. x + w and y + h must each be at most 100.`);
+    if (layer.type === 'text' && !String(layer.text ?? '').trim()) errors.push(`${label}: text layers need "text".`);
+    if (layer.type === 'counter' && typeof layer.value !== 'number') errors.push(`${label}: counter layers need "value".`);
+    if (typeof layer.assetId === 'string') {
+      const asset = assets.find((item) => item.id === layer.assetId);
+      if (!asset) errors.push(`${label}: assetId "${layer.assetId}" does not exist.`);
+      else if (asset.kind === 'logo') errors.push(`${label}: logo assets cannot be used as screenshots.`);
+    }
+  });
+};
 export const checkStoryboard = (storyboard: Storyboard, {brief}: PlanInput): {errors: string[]; warnings: string[]} => {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -59,6 +75,7 @@ export const checkStoryboard = (storyboard: Storyboard, {brief}: PlanInput): {er
       parsed.error.issues.forEach((issue) => errors.push(`Scene ${scene.id} (${scene.template}) props.${issue.path.join('.') || '(root)'}: ${issue.message}`));
     }
     if (scene.template === 'CTAEndCard' && index !== scenes.length - 1) errors.push(`CTAEndCard must only be the last scene (found in ${scene.id}).`);
+    if (scene.template === 'CustomScene') checkCustomScene(scene, brief.assets, errors);
     if (scene.assetId) {
       const asset = brief.assets.find((item) => item.id === scene.assetId);
       if (!asset) errors.push(`Scene ${scene.id}: assetId "${scene.assetId}" does not exist.`);
@@ -73,7 +90,7 @@ export const checkStoryboard = (storyboard: Storyboard, {brief}: PlanInput): {er
   });
 
   const first = scenes[0]?.template;
-  if (first !== 'HookStatement' && first !== 'ProductReveal') errors.push('First scene must be HookStatement or ProductReveal.');
+  if (first !== 'HookStatement' && first !== 'ProductReveal' && first !== 'CustomScene') errors.push('First scene must be HookStatement, ProductReveal or CustomScene.');
   if (scenes[scenes.length - 1]?.template !== 'CTAEndCard') errors.push('Last scene must be CTAEndCard.');
   const count = (template: TemplateName) => scenes.filter((scene) => scene.template === template).length;
   if (count('CTAEndCard') !== 1) errors.push('Use CTAEndCard exactly once.');
@@ -81,6 +98,7 @@ export const checkStoryboard = (storyboard: Storyboard, {brief}: PlanInput): {er
   if (count('HookStatement') > 1) errors.push('Use HookStatement at most once.');
   if (count('FeatureSpotlight') > 3) errors.push('Use at most 3 FeatureSpotlight scenes.');
   if (count('StepFlow') > 1) errors.push('Use StepFlow at most once.');
+  if (count('CustomScene') > 3) errors.push('Use at most 3 CustomScene scenes.');
   return {errors, warnings};
 };
 
@@ -114,6 +132,13 @@ export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanIn
       props.screenshotUrl = asset.url;
       const region = asset.focusRegions.find((item) => item.label === scene.focusRegionLabel);
       if (region && scene.template === 'ScreenshotShowcase') props.focusRegion = {x: region.x, y: region.y, w: region.w, h: region.h};
+    }
+    // NEW: link each CustomScene layer's assetId to its screenshot URL
+    if (scene.template === 'CustomScene' && Array.isArray(props.layers)) {
+      props.layers = (props.layers as Record<string, unknown>[]).map(({screenshotUrl: _drop, ...layer}) => {
+        const layerAsset = typeof layer.assetId === 'string' ? brief.assets.find((item) => item.id === layer.assetId) : undefined;
+        return layerAsset ? {...layer, screenshotUrl: layerAsset.url} : layer;
+      });
     }
     const last = index === storyboard.scenes.length - 1;
     return {

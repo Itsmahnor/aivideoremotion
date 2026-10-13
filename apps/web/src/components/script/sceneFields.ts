@@ -22,9 +22,14 @@ export const TEMPLATE_LABEL: Record<TemplateName, string> = {
   FeatureSpotlight: 'Feature spotlight',
   StepFlow: 'Step-by-step flow',
   CTAEndCard: 'Call-to-action end card',
+  // in TEMPLATE_LABEL:
+  CustomScene: 'Custom scene',
+
 };
 
 export const TEMPLATE_FIELDS: Record<TemplateName, FieldSpec[]> = {
+  // in TEMPLATE_FIELDS (editing is phase 2, so no fields yet):
+  CustomScene: [],
   HookStatement: [
     {kind: 'text', key: 'line', label: 'Hook line', required: true, hint: 'A pain point or bold claim, about 8 words.'},
     {kind: 'text', key: 'subline', label: 'Supporting line'},
