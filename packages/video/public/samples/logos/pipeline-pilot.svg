@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 96" width="520" height="96">
+  <rect x="4" y="12" width="72" height="72" rx="20" fill="#2563EB"/>
+  <path d="M22 60 L38 40 L50 50 L66 26" fill="none" stroke="#06B6D4" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="66" cy="26" r="6" fill="#F59E0B"/>
+  <text x="92" y="66" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="700" fill="#F8FAFC" letter-spacing="-1">Pipeline Pilot</text>
+</svg>

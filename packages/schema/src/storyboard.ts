@@ -24,12 +24,14 @@ export const storyboardSchema = z.object({
         durationSec: z.number(),
         props: z.record(z.string(), z.unknown()),
         assetId: z.string().optional(),
+        narration: z.string().max(300).optional(),
         focusRegionLabel: z.string().optional(),
       }),
     )
     .min(3),
 });
 export type Storyboard = z.infer<typeof storyboardSchema>;
+type StoryScene = Storyboard['scenes'][number];
 
 export const SCENE_COUNT: Record<number, [number, number]> = {15: [3, 4], 30: [5, 6], 60: [8, 10], 90: [11, 14]};
 export const VIDEO_SIZE = {'16:9': {width: 1920, height: 1080}, '9:16': {width: 1080, height: 1920}, '1:1': {width: 1080, height: 1080}} as const;
@@ -41,8 +43,18 @@ export const MOTION_TRANSITION = {
 } as const;
 export const FPS = 30;
 
+/** Scene length from its content: reading time, plus extra time for a real screenshot. Clamped to 3..12 seconds. */
+export const sceneSeconds = (scene: StoryScene): number => {
+  const words = onScreenWords(scene.props);
+  const shotExtra = scene.assetId && TEMPLATE_META[scene.template].usesScreenshot ? 2.5 : 0;
+  const reading = 1.5 + words / 3 + shotExtra;
+  return Math.min(12, Math.max(3, scene.durationSec, reading));
+};
+
+/** Scene count range for a target length. With no target (auto length), any count from 3 to 14 is allowed. */
+export const sceneCountFor = (durationSec: number | undefined): [number, number] => (durationSec ? (SCENE_COUNT[durationSec] ?? [3, 14]) : [3, 14]);
+
 // ---------------------------------------------------------------- checks
-type StoryScene = Storyboard['scenes'][number];
 
 const checkCustomScene = (scene: StoryScene, assets: Brief['assets'], errors: string[]): void => {
   const layers = Array.isArray(scene.props.layers) ? (scene.props.layers as Record<string, unknown>[]) : [];
@@ -59,12 +71,15 @@ const checkCustomScene = (scene: StoryScene, assets: Brief['assets'], errors: st
     }
   });
 };
+
 export const checkStoryboard = (storyboard: Storyboard, {brief}: PlanInput): {errors: string[]; warnings: string[]} => {
   const errors: string[] = [];
   const warnings: string[] = [];
-  const [min, max] = SCENE_COUNT[brief.durationSec];
+  const [min, max] = sceneCountFor(brief.durationSec);
   const {scenes} = storyboard;
-  if (scenes.length < min || scenes.length > max) errors.push(`Scene count is ${scenes.length}; it must be ${min}-${max} for a ${brief.durationSec}s video.`);
+  if (scenes.length < min || scenes.length > max) {
+    errors.push(`Scene count is ${scenes.length}; it must be ${min}-${max}${brief.durationSec ? ` for a ${brief.durationSec}s video` : ''}.`);
+  }
 
   const ids = new Set<string>();
   scenes.forEach((scene, index) => {
@@ -104,24 +119,43 @@ export const checkStoryboard = (storyboard: Storyboard, {brief}: PlanInput): {er
 
 // ---------------------------------------------------------------- compile (deterministic, no AI)
 
+const buildCaptions = (
+  storyboardScenes: Storyboard['scenes'],
+  compiled: {durationInFrames: number; transitionOut: {durationInFrames: number}}[],
+): {text: string; startMs: number; endMs: number}[] => {
+  const captions: {text: string; startMs: number; endMs: number}[] = [];
+  let start = 0;
+  storyboardScenes.forEach((scene, index) => {
+    const timing = compiled[index]!;
+    const text = (scene.narration ?? '').trim();
+    if (text) {
+      captions.push({
+        text,
+        startMs: Math.round((start / FPS) * 1000),
+        endMs: Math.round(((start + timing.durationInFrames) / FPS) * 1000),
+      });
+    }
+    // Transitions overlap the next scene, so the next scene starts earlier.
+    start += timing.durationInFrames - timing.transitionOut.durationInFrames;
+  });
+  return captions;
+};
+
 export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanInput): {sceneJson: SceneJSON; notes: string[]} => {
   const notes: string[] = [];
-  let seconds = storyboard.scenes.map((scene) => {
-    const need = readingSeconds(onScreenWords(scene.props));
-    const value = Math.min(8, Math.max(3, scene.durationSec, need));
-    if (value !== scene.durationSec) notes.push(`Scene ${scene.id}: duration ${scene.durationSec}s -> ${value.toFixed(1)}s (reading-time rule).`);
-    return value;
-  });
-
   const transition = MOTION_TRANSITION[brand.motionStyle];
+
+  // Length follows the content. A target length only nudges it, by at most 15%.
+  let seconds = storyboard.scenes.map(sceneSeconds);
   const overlap = ((storyboard.scenes.length - 1) * transition.frames) / FPS;
   const sum = seconds.reduce((a, b) => a + b, 0);
-  const total = sum - overlap;
-  if (Math.abs(total - brief.durationSec) / brief.durationSec > 0.1) {
-    const factor = (brief.durationSec + overlap) / sum;
-    seconds = seconds.map((value) => Math.min(8, Math.max(3, value * factor)));
-    notes.push(`Total was ${total.toFixed(1)}s, scaled toward ${brief.durationSec}s.`);
+
+  if (brief.durationSec) {
+    const factor = Math.min(1.15, Math.max(0.85, (brief.durationSec + overlap) / sum));
+    seconds = seconds.map((value) => value * factor);
   }
+  const actual = seconds.reduce((a, b) => a + b, 0) - overlap;
+  notes.push(`Video length: ${actual.toFixed(1)}s (content based).`);
 
   const scenes = storyboard.scenes.map((scene, index) => {
     const props: Record<string, unknown> = {...scene.props};
@@ -133,7 +167,7 @@ export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanIn
       const region = asset.focusRegions.find((item) => item.label === scene.focusRegionLabel);
       if (region && scene.template === 'ScreenshotShowcase') props.focusRegion = {x: region.x, y: region.y, w: region.w, h: region.h};
     }
-    // NEW: link each CustomScene layer's assetId to its screenshot URL
+    // Link each CustomScene layer's assetId to its screenshot URL.
     if (scene.template === 'CustomScene' && Array.isArray(props.layers)) {
       props.layers = (props.layers as Record<string, unknown>[]).map(({screenshotUrl: _drop, ...layer}) => {
         const layerAsset = typeof layer.assetId === 'string' ? brief.assets.find((item) => item.id === layer.assetId) : undefined;
@@ -150,7 +184,13 @@ export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanIn
     };
   });
 
-  const candidate = {version: 1 as const, meta: {fps: FPS, ...VIDEO_SIZE[brief.aspectRatio]}, scenes, audio: {}, captions: []};
+  const candidate = {
+    version: 1 as const,
+    meta: {fps: FPS, ...VIDEO_SIZE[brief.aspectRatio]},
+    scenes,
+    audio: {},
+    captions: brand.captions.enabled ? buildCaptions(storyboard.scenes, scenes) : [],
+  };
   // Final gate: the exact schema Remotion's DynamicVideo uses.
   const sceneJson = createSceneJsonSchema(TEMPLATE_PROPS).parse(candidate);
   return {sceneJson, notes};

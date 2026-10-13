@@ -154,9 +154,7 @@ export const CustomizeStep: FC = () => {
                 />
               </div>
               <div className="h-10 rounded-lg ring-1 ring-line sm:col-span-3" style={{background: `linear-gradient(${brand.gradient.angle}deg, ${brand.gradient.from}, ${brand.gradient.to})`}} aria-hidden />
-              <p className="text-[13px] text-muted sm:col-span-3">
-                Note: the current video renderer draws its background from your primary and secondary colors. This custom gradient is kept for when the renderer supports it.
-              </p>
+             
             </div>
           ) : null}
         </div>

@@ -19,7 +19,8 @@ import {continueRender, delayRender} from 'remotion';
 import {createContext, type FC, type ReactNode, useContext, useMemo} from 'react';
 import {getReadableTextColor, lighten, withOpacity} from './color';
 import {motionStyleMap} from './motion';
-
+import {backgroundCss} from './background';
+import {visualStyleTokens, type VisualStyleToken} from './style';
 const systemFontFallback = 'system-ui, sans-serif';
 const derivedColorAmount = 0.08;
 const mutedOpacity = 0.68;
@@ -79,7 +80,10 @@ export type BrandTheme = {
     muted: string;
     onPrimary: string;
     onAccent: string;
+
   };
+  background: string;
+style: VisualStyleToken;
   fonts: BrandKit['fonts'];
   motion: (typeof motionStyleMap)[BrandKit['motionStyle']];
   logoUrl: string;
@@ -90,6 +94,8 @@ const BrandThemeContext = createContext<BrandTheme | null>(null);
 export const BrandThemeProvider: FC<{brand: BrandKit; children: ReactNode}> = ({brand, children}) => {
   const theme = useMemo<BrandTheme>(
     () => ({
+      background: backgroundCss(brand),
+style: visualStyleTokens[brand.visualStyle],
       name: brand.name,
       colors: {
         ...brand.colors,

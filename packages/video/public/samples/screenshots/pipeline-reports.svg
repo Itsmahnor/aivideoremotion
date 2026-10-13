@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Inter, Arial, sans-serif">
+  <rect width="1600" height="1000" fill="#F1F5F9"/>
+  <rect x="120" y="60" width="1360" height="880" rx="24" fill="#FFFFFF"/>
+  <text x="170" y="130" font-size="38" font-weight="700" fill="#0F172A">Forecast</text>
+  <text x="170" y="170" font-size="20" fill="#64748B">Expected revenue by month</text>
+  <line x1="170" y1="800" x2="1430" y2="800" stroke="#E2E8F0" stroke-width="2"/>
+  <g fill="#BFDBFE"><rect x="210" y="620" width="120" height="180" rx="8"/><rect x="390" y="560" width="120" height="240" rx="8"/><rect x="570" y="500" width="120" height="300" rx="8"/><rect x="750" y="440" width="120" height="360" rx="8"/><rect x="930" y="380" width="120" height="420" rx="8"/><rect x="1110" y="320" width="120" height="480" rx="8"/></g>
+  <path d="M270 580 L450 520 L630 460 L810 400 L990 340 L1170 280" fill="none" stroke="#2563EB" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-size="18" fill="#64748B"><text x="250" y="838">Jan</text><text x="430" y="838">Feb</text><text x="610" y="838">Mar</text><text x="790" y="838">Apr</text><text x="970" y="838">May</text><text x="1150" y="838">Jun</text></g>
+  <rect x="1200" y="150" width="250" height="110" rx="16" fill="#EFF6FF"/>
+  <text x="1224" y="192" font-size="18" fill="#1E40AF">Forecast total</text>
+  <text x="1224" y="236" font-size="40" font-weight="700" fill="#0F172A">$482k</text>
+</svg>

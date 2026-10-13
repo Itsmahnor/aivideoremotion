@@ -121,7 +121,7 @@ describe('step 3: storyboard', () => {
     script.scenes[1]!.narration = 'x'.repeat(301);
     const fields = validateScript(script, sampleConfig()).scenes[script.scenes[1]!.id]!.fields;
     expect(fields.durationSec).toBeDefined();
-    expect(fields.narration).toMatch(/at most 300/);
+    expect(fields.narration).toMatch(/at most 140/);
   });
 
   it('flags a scene that points at a removed screenshot', () => {

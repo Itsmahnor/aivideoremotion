@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Inter, Arial, sans-serif">
+  <rect width="1600" height="1000" fill="#F1F5F9"/>
+  <rect width="250" height="1000" fill="#FFFFFF"/>
+  <rect x="32" y="36" width="40" height="40" rx="12" fill="#2563EB"/>
+  <text x="86" y="64" font-size="26" font-weight="700" fill="#0F172A">Pipeline</text>
+  <g font-size="20" fill="#475569">
+    <rect x="20" y="130" width="210" height="48" rx="12" fill="#EFF6FF"/><text x="48" y="161" fill="#2563EB" font-weight="600">Overview</text>
+    <text x="48" y="221">Deals</text><text x="48" y="281">Contacts</text><text x="48" y="341">Forecast</text><text x="48" y="401">Settings</text>
+  </g>
+  <text x="300" y="86" font-size="34" font-weight="700" fill="#0F172A">Overview</text>
+  <g>
+    <rect x="300" y="140" width="270" height="130" rx="18" fill="#FFFFFF"/><text x="326" y="186" font-size="18" fill="#64748B">Open deals</text><text x="326" y="240" font-size="46" font-weight="700" fill="#0F172A">128</text>
+    <rect x="590" y="140" width="270" height="130" rx="18" fill="#FFFFFF"/><text x="616" y="186" font-size="18" fill="#64748B">Pipeline value</text><text x="616" y="240" font-size="46" font-weight="700" fill="#0F172A">$482k</text>
+    <rect x="880" y="140" width="270" height="130" rx="18" fill="#FFFFFF"/><text x="906" y="186" font-size="18" fill="#64748B">Win rate</text><text x="906" y="240" font-size="46" font-weight="700" fill="#0F172A">31%</text>
+  </g>
+  <rect x="300" y="300" width="850" height="620" rx="18" fill="#FFFFFF"/>
+  <text x="332" y="352" font-size="24" font-weight="600" fill="#0F172A">Pipeline by week</text>
+  <path d="M332 800 C420 740 480 760 560 690 S700 640 780 600 S940 560 1010 470 S1090 420 1120 400" fill="none" stroke="#2563EB" stroke-width="6" stroke-linecap="round"/>
+  <rect x="1180" y="180" width="300" height="560" rx="18" fill="#FFFFFF"/>
+  <text x="1208" y="230" font-size="24" font-weight="700" fill="#0F172A">Stalled deals</text>
+  <rect x="1204" y="262" width="252" height="150" rx="14" fill="#FFF7ED" stroke="#FDBA74"/>
+  <circle cx="1230" cy="292" r="8" fill="#F59E0B"/><text x="1248" y="298" font-size="18" font-weight="600" fill="#9A3412">Acme renewal stalled</text>
+  <text x="1224" y="336" font-size="16" fill="#7C2D12">In Negotiation for 21 days</text>
+  <rect x="1204" y="434" width="252" height="150" rx="14" fill="#FFF7ED" stroke="#FDBA74"/>
+  <circle cx="1230" cy="464" r="8" fill="#F59E0B"/><text x="1248" y="470" font-size="18" font-weight="600" fill="#9A3412">Globex quote idle</text>
+  <text x="1224" y="508" font-size="16" fill="#7C2D12">Proposal sent 14 days ago</text>
+</svg>

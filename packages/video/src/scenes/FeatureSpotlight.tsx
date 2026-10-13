@@ -3,6 +3,7 @@ import type {z} from 'zod';
 import {featureSpotlightProps} from '@ai-video-studio/schema';
 import {interpolate} from 'remotion';
 import {easingCurves, textMetrics, withOpacity} from '../tokens';
+import {Glow, MaskText, Sheen} from './components/Cinematic';
 import {DeviceFrame, getFrameHeight, getScreenSize} from './components/DeviceFrame';
 import {SceneFrame} from './components/SceneFrame';
 import {ScreenView} from './components/ScreenView';
@@ -15,10 +16,11 @@ export const FeatureSpotlight: FC<FeatureSpotlightProps> = ({icon, title, descri
   const {brand, type, layout: videoLayout, contentWidth, contentHeight, enter, frame, px, step, sceneDuration} = useSceneKit();
   const stacked = layout === 'stacked' || videoLayout.isPortrait;
   const iconP = enter(0, 'bouncy');
-  const titleP = enter(step + 2);
   const descP = enter(step * 2 + 6);
+  const barP = enter(step * 2 + 2, 'smooth');
   const deviceP = enter(14, 'smooth');
-  const drift = interpolate(frame, [0, Math.max(60, sceneDuration)], [1, 1.035], {extrapolateRight: 'clamp', easing: easingCurves.enter});
+  const drift = interpolate(frame, [0, Math.max(60, sceneDuration)], [1, 1.04], {extrapolateRight: 'clamp', easing: easingCurves.enter});
+  const float = Math.sin(frame / 38) * px(7);
   const sideSign = layout === 'left' ? -1 : 1;
 
   const frameW = stacked ? contentWidth * (videoLayout.isPortrait ? 0.92 : 0.6) : contentWidth * 0.47;
@@ -27,25 +29,29 @@ export const FeatureSpotlight: FC<FeatureSpotlightProps> = ({icon, title, descri
 
   const text = (
     <div style={{display: 'flex', flex: stacked ? '0 0 auto' : '1 1 0', flexDirection: 'column', gap: px(24), textAlign: stacked ? 'center' : 'left', alignItems: stacked ? 'center' : 'flex-start'}}>
-      <div
-        style={{
-          alignItems: 'center',
-          backgroundColor: brand.colors.accent,
-          borderRadius: px(26),
-          boxShadow: `0 ${px(14)}px ${px(36)}px ${withOpacity(brand.colors.accent, 0.4)}`,
-          display: 'flex',
-          height: px(96),
-          justifyContent: 'center',
-          opacity: Math.min(1, iconP * 1.5),
-          transform: `scale(${0.4 + 0.6 * iconP})`,
-          width: px(96),
-        }}
-      >
-        <Icon name={icon} size={px(52)} color={brand.colors.onAccent} />
+      <div style={{position: 'relative'}}>
+        <Glow color={brand.colors.accent} size={2} opacity={0.5} />
+        <div
+          style={{
+            alignItems: 'center',
+            backgroundColor: brand.colors.accent,
+            borderRadius: px(26),
+            boxShadow: `0 ${px(14)}px ${px(36)}px ${withOpacity(brand.colors.accent, 0.4)}`,
+            display: 'flex',
+            height: px(96),
+            justifyContent: 'center',
+            opacity: Math.min(1, iconP * 1.5),
+            transform: `scale(${0.4 + 0.6 * iconP}) rotate(${(1 - iconP) * -18}deg)`,
+            width: px(96),
+          }}
+        >
+          <Icon name={icon} size={px(52)} color={brand.colors.onAccent} />
+        </div>
       </div>
-      <div style={{fontFamily: brand.fonts.heading, fontSize: type.display * 1.1, fontWeight: textMetrics.fontWeight.bold, letterSpacing: textMetrics.letterSpacing.tight, lineHeight: 1.05, opacity: titleP, transform: `translateY(${(1 - titleP) * px(26)}px)`}}>
-        {title}
-      </div>
+      <MaskText delay={step + 2}>
+        <div style={{fontFamily: brand.fonts.heading, fontSize: type.display * 1.1, fontWeight: textMetrics.fontWeight.bold, letterSpacing: textMetrics.letterSpacing.tight, lineHeight: 1.05}}>{title}</div>
+      </MaskText>
+      <div style={{backgroundColor: brand.colors.accent, borderRadius: px(4), height: px(6), width: px(120) * barP}} />
       <div style={{color: brand.colors.muted, fontSize: type.title * 1.05, lineHeight: textMetrics.lineHeight.normal, maxWidth: stacked ? '90%' : '95%', opacity: descP, transform: `translateY(${(1 - descP) * px(20)}px)`}}>
         {description}
       </div>
@@ -53,10 +59,19 @@ export const FeatureSpotlight: FC<FeatureSpotlightProps> = ({icon, title, descri
   );
 
   const device = (
-    <div style={{flex: '0 0 auto', opacity: Math.min(1, deviceP * 1.5), transform: `translateX(${stacked ? 0 : sideSign * (1 - deviceP) * px(140)}px) translateY(${stacked ? (1 - deviceP) * px(120) : 0}px) scale(${drift})`}}>
+    <div
+      style={{
+        flex: '0 0 auto',
+        opacity: Math.min(1, deviceP * 1.5),
+        position: 'relative',
+        transform: `translateX(${stacked ? 0 : sideSign * (1 - deviceP) * px(140)}px) translateY(${(stacked ? (1 - deviceP) * px(120) : 0) + float}px) scale(${drift})`,
+      }}
+    >
+      <Glow color={brand.colors.primary} size={1.35} opacity={0.5} />
       <DeviceFrame variant="browser" width={frameW} height={frameH}>
         <ScreenView src={screenshotUrl} width={screen.width} height={screen.height} highlight={1} />
       </DeviceFrame>
+      <Sheen start={26} radius={frameW * 0.016} />
     </div>
   );
 

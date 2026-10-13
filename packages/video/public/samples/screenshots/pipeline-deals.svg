@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" font-family="Inter, Arial, sans-serif">
+  <rect width="1600" height="1000" fill="#F1F5F9"/>
+  <rect x="120" y="60" width="1360" height="880" rx="24" fill="#FFFFFF"/>
+  <text x="170" y="130" font-size="38" font-weight="700" fill="#0F172A">Deals by stage</text>
+  <g font-size="20" font-weight="600" fill="#475569">
+    <rect x="170" y="170" width="290" height="60" rx="12" fill="#EFF6FF"/><text x="190" y="208" fill="#1E40AF">Lead  ·  12</text>
+    <rect x="490" y="170" width="290" height="60" rx="12" fill="#EFF6FF"/><text x="510" y="208" fill="#1E40AF">Proposal  ·  8</text>
+    <rect x="810" y="170" width="290" height="60" rx="12" fill="#FFF7ED"/><text x="830" y="208" fill="#9A3412">Negotiation  ·  5</text>
+    <rect x="1130" y="170" width="250" height="60" rx="12" fill="#ECFDF5"/><text x="1150" y="208" fill="#065F46">Won  ·  3</text>
+  </g>
+  <g>
+    <rect x="170" y="260" width="290" height="120" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/><text x="190" y="305" font-size="20" font-weight="600" fill="#0F172A">Northwind</text><text x="190" y="342" font-size="17" fill="#64748B">$42,000</text>
+    <rect x="170" y="400" width="290" height="120" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/><text x="190" y="445" font-size="20" font-weight="600" fill="#0F172A">Initech</text><text x="190" y="482" font-size="17" fill="#64748B">$18,500</text>
+    <rect x="490" y="260" width="290" height="120" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/><text x="510" y="305" font-size="20" font-weight="600" fill="#0F172A">Umbrella Co</text><text x="510" y="342" font-size="17" fill="#64748B">$27,000</text>
+    <rect x="810" y="260" width="290" height="120" rx="14" fill="#FFF7ED" stroke="#FDBA74"/><text x="830" y="305" font-size="20" font-weight="600" fill="#0F172A">Acme renewal</text><text x="830" y="342" font-size="17" fill="#9A3412">Stalled 21 days</text>
+    <rect x="1130" y="260" width="250" height="120" rx="14" fill="#F8FAFC" stroke="#E2E8F0"/><text x="1150" y="305" font-size="20" font-weight="600" fill="#0F172A">Stark Ltd</text><text x="1150" y="342" font-size="17" fill="#64748B">$64,000</text>
+  </g>
+</svg>

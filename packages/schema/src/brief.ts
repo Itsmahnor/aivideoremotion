@@ -10,8 +10,7 @@ export const briefSchema = z.object({
   videoType: z.literal(VIDEO_TYPES[0]),
   subtype: z.enum(EXPLAINER_SUBTYPES),
   aspectRatio: aspectRatioSchema,
-  durationSec: z.literal(DURATIONS_SEC),
-  userPrompt: z.string().max(1500),
+  durationSec: z.literal(DURATIONS_SEC).optional(), 
   assets: z.array(uploadedAssetSchema).max(10).default([]),
   details: saasExplainerDetailsSchema,
 });

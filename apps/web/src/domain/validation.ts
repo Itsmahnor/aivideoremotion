@@ -35,7 +35,7 @@ export const LIMITS = {
   brandTone: {min: 0, max: 80},
   assetLabel: {min: 1, max: 60},
   purpose: {min: 0, max: 140},
-  narration: {min: 0, max: 300},
+ narration: {min: 0, max: 140},
   features: {min: 1, max: 5},
 } as const;
 

@@ -6,7 +6,19 @@ import {checkStoryboard, compileStoryboard, FPS, generatePlan, mockStoryboard, t
 
 const brand = brandKitSchema.parse(brandFixture);
 const makeInput = (overrides: Partial<Brief> = {}): PlanInput => ({brand, brief: briefSchema.parse({...briefFixture, ...overrides})});
+it('adds timed captions only when captions are enabled', () => {
+  const input = makeInput({durationSec: 30});
+  const base = mockStoryboard(input);
+  const storyboard = {...base, scenes: base.scenes.map((scene) => ({...scene, narration: 'A line of narration.'}))};
 
+  expect(compileStoryboard(storyboard, input).sceneJson.captions).toEqual([]);
+
+  const on = {...input, brand: {...input.brand, captions: {enabled: true, style: 'clean' as const}}};
+  const captions = compileStoryboard(storyboard, on).sceneJson.captions;
+  expect(captions).toHaveLength(storyboard.scenes.length);
+  expect(captions[0]!.startMs).toBe(0);
+  expect(captions[1]!.startMs).toBeGreaterThan(captions[0]!.startMs);
+});
 describe('mock planner + compiler', () => {
   it.each([15, 30, 60, 90] as const)('produces a valid %is plan close to the target length', async (durationSec) => {
     const input = makeInput({durationSec});

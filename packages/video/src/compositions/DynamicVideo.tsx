@@ -16,6 +16,9 @@ import {
 import {sceneRegistry} from '../scenes/registry';
 import {SceneDurationContext} from '../scenes/kit';
 import {BrandThemeProvider} from '../tokens';
+import {Sequence} from 'remotion';
+import {CaptionBar} from '../scenes/components/CaptionBar';
+import {backgroundCss} from '../tokens/background';
 
 export type DynamicVideoProps = {
   sceneJson: unknown;
@@ -102,11 +105,24 @@ export const DynamicVideo: FC<DynamicVideoProps> = ({sceneJson, brand}) => {
     return nodes;
   });
 
-  return (
-    <BrandThemeProvider brand={brand}>
-      <AbsoluteFill style={{backgroundColor: brand.colors.background}}>
-        <TransitionSeries>{children}</TransitionSeries>
-      </AbsoluteFill>
-    </BrandThemeProvider>
-  );
+const {captions, meta} = parsed.data;
+
+return (
+  <BrandThemeProvider brand={brand}>
+    <AbsoluteFill style={{background: backgroundCss(brand)}}>
+      <TransitionSeries>{children}</TransitionSeries>
+      {brand.captions.enabled
+        ? captions.map((caption, index) => (
+            <Sequence
+              key={`caption-${index}`}
+              from={Math.round((caption.startMs * meta.fps) / 1000)}
+              durationInFrames={Math.max(1, Math.round(((caption.endMs - caption.startMs) * meta.fps) / 1000))}
+            >
+              <CaptionBar text={caption.text} style={brand.captions.style} />
+            </Sequence>
+          ))
+        : null}
+    </AbsoluteFill>
+  </BrandThemeProvider>
+);
 };

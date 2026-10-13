@@ -39,6 +39,9 @@ export const composeDirection = (config: ProjectConfig): string => {
 export const toBrandKit = (config: ProjectConfig): BrandKit => {
   const {brand, product, video} = config;
   return {
+    gradient: brand.gradient,
+visualStyle: video.visualStyle,
+captions: {enabled: video.captions.enabled, style: video.captions.style},
     name: brand.name.trim() || product.productName.trim() || 'Untitled',
     logoUrl: brand.logoUrl,
     colors: brand.colors,
@@ -124,7 +127,7 @@ export const fromStoryboard = (storyboard: Storyboard, source: ScriptSource, con
 /** Strips frontend-only fields (section, narration) to get the storyboard the compiler understands. */
 export const toStoryboard = (script: Script): Storyboard => ({
   title: script.title,
-  scenes: script.scenes.map(({section: _s, narration: _n, ...scene}) => scene),
+  scenes: script.scenes.map(({section: _s, ...scene}) => scene),
 });
 
 export const SOURCE_LABEL: Record<ScriptSource, string> = {

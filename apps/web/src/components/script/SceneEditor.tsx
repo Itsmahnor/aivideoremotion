@@ -221,8 +221,7 @@ export const SceneEditor: FC<Props> = ({scene, index, total, issues, config, dis
                 error={fieldError('narration')}
                 onBlur={touch('narration')}
                 onChange={(narration) => onChange({narration})}
-                hint="Voice-over script for this scene. Saved for when a voice-over service is connected; the current renderer shows on-screen text only."
-              />
+              hint="Shown as a caption at the bottom of the scene when captions are on in Customize. Keep it under about 140 characters."/>
             </div>
           </fieldset>
         </div>
