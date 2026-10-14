@@ -40,8 +40,8 @@ export const toBrandKit = (config: ProjectConfig): BrandKit => {
   const {brand, product, video} = config;
   return {
     gradient: brand.gradient,
-visualStyle: video.visualStyle,
-captions: {enabled: video.captions.enabled, style: video.captions.style},
+    visualStyle: video.visualStyle,
+    captions: {enabled: video.captions.enabled, style: video.captions.style},
     name: brand.name.trim() || product.productName.trim() || 'Untitled',
     logoUrl: brand.logoUrl,
     colors: brand.colors,
@@ -85,7 +85,7 @@ export const DEFAULT_SECTION: Record<TemplateName, ScriptSection> = {
   FeatureSpotlight: 'feature',
   StepFlow: 'feature',
   CTAEndCard: 'cta',
-    CustomScene: 'feature',
+  CustomScene: 'feature',
 };
 
 export const SECTION_LABEL: Record<ScriptSection, string> = {
@@ -114,6 +114,7 @@ export const fromStoryboard = (storyboard: Storyboard, source: ScriptSource, con
       props: scene.props,
       ...(scene.assetId ? {assetId: scene.assetId} : {}),
       ...(scene.focusRegionLabel ? {focusRegionLabel: scene.focusRegionLabel} : {}),
+      ...(scene.transitionOut ? {transitionOut: scene.transitionOut} : {}),
     }),
   ),
   source,

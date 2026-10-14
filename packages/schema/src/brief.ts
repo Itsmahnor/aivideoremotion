@@ -10,7 +10,10 @@ export const briefSchema = z.object({
   videoType: z.literal(VIDEO_TYPES[0]),
   subtype: z.enum(EXPLAINER_SUBTYPES),
   aspectRatio: aspectRatioSchema,
-  durationSec: z.literal(DURATIONS_SEC).optional(), 
+  /** Optional target length. Leave out for "auto": the length then follows the content. */
+  durationSec: z.literal(DURATIONS_SEC).optional(),
+  /** Extra direction for the script writer (the web app builds it from the product details). */
+  userPrompt: z.string().max(1500).default(''),
   assets: z.array(uploadedAssetSchema).max(10).default([]),
   details: saasExplainerDetailsSchema,
 });

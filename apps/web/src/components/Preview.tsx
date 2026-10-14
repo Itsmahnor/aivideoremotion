@@ -11,6 +11,7 @@ export const Preview = forwardRef<PlayerRef, {sceneJson: SceneJSON; brand: Brand
   const inputProps = useMemo<DynamicVideoProps>(() => ({sceneJson, brand}), [sceneJson, brand]);
   const {width, height, fps} = sceneJson.meta;
   const maxWidth = height > width ? 340 : height === width ? 520 : 960;
+  const hasAudio = Boolean(sceneJson.audio.musicUrl || sceneJson.audio.voiceoverUrl);
   return (
     <div style={{maxWidth}} className="mx-auto w-full overflow-hidden rounded-xl bg-black ring-1 ring-line">
       <Player
@@ -25,7 +26,7 @@ export const Preview = forwardRef<PlayerRef, {sceneJson: SceneJSON; brand: Brand
         clickToPlay
         doubleClickToFullscreen
         spaceKeyToPlayOrPause
-        showVolumeControls={false}
+        showVolumeControls={hasAudio}
         initialFrame={0}
         style={{width: '100%'}}
         acknowledgeRemotionLicense

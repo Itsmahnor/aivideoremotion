@@ -1,15 +1,15 @@
 import {z} from 'zod';
 import type {BrandKit} from './brand-kit';
 import type {Brief} from './brief';
-import {createSceneJsonSchema, type SceneJSON} from './scene-json';
-import {TEMPLATE_META, TEMPLATE_NAMES, TEMPLATE_PROPS, onScreenWords, readingSeconds, type TemplateName} from './templates';
+import {createSceneJsonSchema, TRANSITION_TYPES, type SceneAudio, type SceneJSON, type TransitionType} from './scene-json';
+import {TEMPLATE_META, TEMPLATE_NAMES, TEMPLATE_PROPS, onScreenWords, type TemplateName} from './templates';
 
 /**
  * Storyboard rules shared by the API (AI planner) and the web app (editing + live preview).
  * Pure functions only: no network, no file system, no AI.
  */
 
-export type PlanInput = {brand: BrandKit; brief: Brief};
+export type PlanInput = {brand: BrandKit; brief: Brief; /** Optional music / sound effects copied into SceneJSON.audio. */ audio?: SceneAudio};
 
 // ---------------------------------------------------------------- storyboard (what the AI returns)
 
@@ -26,6 +26,8 @@ export const storyboardSchema = z.object({
         assetId: z.string().optional(),
         narration: z.string().max(300).optional(),
         focusRegionLabel: z.string().optional(),
+        /** Optional. Transition from this scene INTO the next one. Leave out to let the compiler choose by scene role. */
+        transitionOut: z.enum(TRANSITION_TYPES).optional(),
       }),
     )
     .min(3),
@@ -42,6 +44,33 @@ export const MOTION_TRANSITION = {
   corporate: {type: 'fade', frames: 12},
 } as const;
 export const FPS = 30;
+
+// ---------------------------------------------------------------- transitions by scene role
+
+type Motion = BrandKit['motionStyle'];
+
+/** Hook -> anything: the punchy one. */
+const PUNCHY: Record<Motion, TransitionType> = {calm: 'clockWipe', energetic: 'flip', playful: 'clockWipe', corporate: 'wipe'};
+/** ProductReveal -> anything: a clean handoff into the proof. */
+const AFTER_REVEAL: Record<Motion, TransitionType> = {calm: 'fade', energetic: 'wipe', playful: 'wipe', corporate: 'fade'};
+/** Shape transitions need a little more time to read. Everything else uses the brand's frame count. */
+const SHAPE_FRAMES: Partial<Record<TransitionType, number>> = {flip: 16, clockWipe: 20};
+
+/**
+ * Picks the transition from one scene into the next by their roles.
+ * - anything -> CTAEndCard: gentle fade, so the call to action lands calmly
+ * - hook -> next: punchy
+ * - reveal -> next: clean handoff
+ * - feature -> feature (and everything else): the brand's own default
+ */
+export const pickTransition = (from: TemplateName, to: TemplateName, motion: Motion): TransitionType => {
+  if (to === 'CTAEndCard') return 'fade';
+  if (from === 'HookStatement') return PUNCHY[motion];
+  if (from === 'ProductReveal') return AFTER_REVEAL[motion];
+  return MOTION_TRANSITION[motion].type;
+};
+
+export const transitionFrames = (type: TransitionType, motion: Motion): number => SHAPE_FRAMES[type] ?? MOTION_TRANSITION[motion].frames;
 
 /** Scene length from its content: reading time, plus extra time for a real screenshot. Clamped to 3..12 seconds. */
 export const sceneSeconds = (scene: StoryScene): number => {
@@ -100,6 +129,7 @@ export const checkStoryboard = (storyboard: Storyboard, {brief}: PlanInput): {er
       }
       if (!TEMPLATE_META[scene.template].usesScreenshot) warnings.push(`Scene ${scene.id}: ${scene.template} ignores assetId.`);
     }
+    if (scene.transitionOut && index === scenes.length - 1) warnings.push(`Scene ${scene.id}: the last scene has no transition, so transitionOut is ignored.`);
     const words = onScreenWords(scene.props);
     if (words > TEMPLATE_META[scene.template].maxWords) warnings.push(`Scene ${scene.id}: ${words} words (soft limit ${TEMPLATE_META[scene.template].maxWords}).`);
   });
@@ -141,13 +171,21 @@ const buildCaptions = (
   return captions;
 };
 
-export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanInput): {sceneJson: SceneJSON; notes: string[]} => {
+export const compileStoryboard = (storyboard: Storyboard, {brand, brief, audio}: PlanInput): {sceneJson: SceneJSON; notes: string[]} => {
   const notes: string[] = [];
-  const transition = MOTION_TRANSITION[brand.motionStyle];
+  const lastIndex = storyboard.scenes.length - 1;
+
+  // One transition per scene boundary: the storyboard's own choice, or one picked by scene role.
+  const plan: {type: TransitionType | 'none'; frames: number}[] = storyboard.scenes.map((scene, index) => {
+    if (index === lastIndex) return {type: 'none', frames: 0};
+    const next = storyboard.scenes[index + 1]!;
+    const type = scene.transitionOut ?? pickTransition(scene.template, next.template, brand.motionStyle);
+    return {type, frames: transitionFrames(type, brand.motionStyle)};
+  });
 
   // Length follows the content. A target length only nudges it, by at most 15%.
   let seconds = storyboard.scenes.map(sceneSeconds);
-  const overlap = ((storyboard.scenes.length - 1) * transition.frames) / FPS;
+  const overlap = plan.reduce((total, item) => total + item.frames, 0) / FPS;
   const sum = seconds.reduce((a, b) => a + b, 0);
 
   if (brief.durationSec) {
@@ -156,6 +194,7 @@ export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanIn
   }
   const actual = seconds.reduce((a, b) => a + b, 0) - overlap;
   notes.push(`Video length: ${actual.toFixed(1)}s (content based).`);
+  notes.push(`Transitions: ${plan.slice(0, -1).map((item) => item.type).join(', ')}.`);
 
   const scenes = storyboard.scenes.map((scene, index) => {
     const props: Record<string, unknown> = {...scene.props};
@@ -174,13 +213,13 @@ export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanIn
         return layerAsset ? {...layer, screenshotUrl: layerAsset.url} : layer;
       });
     }
-    const last = index === storyboard.scenes.length - 1;
+    const transition = plan[index]!;
     return {
       id: scene.id,
       template: scene.template,
       durationInFrames: Math.round((seconds[index] ?? 3) * FPS),
       props: TEMPLATE_PROPS[scene.template].parse(props) as Record<string, unknown>,
-      transitionOut: last ? ({type: 'none', durationInFrames: 0} as const) : ({type: transition.type, durationInFrames: transition.frames} as const),
+      transitionOut: {type: transition.type, durationInFrames: transition.frames},
     };
   });
 
@@ -188,7 +227,7 @@ export const compileStoryboard = (storyboard: Storyboard, {brand, brief}: PlanIn
     version: 1 as const,
     meta: {fps: FPS, ...VIDEO_SIZE[brief.aspectRatio]},
     scenes,
-    audio: {},
+    audio: audio ?? {},
     captions: brand.captions.enabled ? buildCaptions(storyboard.scenes, scenes) : [],
   };
   // Final gate: the exact schema Remotion's DynamicVideo uses.

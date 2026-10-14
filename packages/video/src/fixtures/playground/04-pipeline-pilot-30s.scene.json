@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "meta": {
+    "fps": 30,
+    "width": 1920,
+    "height": 1080
+  },
+  "scenes": [
+    {
+      "id": "s1",
+      "template": "HookStatement",
+      "durationInFrames": 140,
+      "props": {
+        "line": "Deals go quiet in the pipeline and nobody notices until the",
+        "emphasisWords": [],
+        "style": "word-by-word"
+      },
+      "transitionOut": {
+        "type": "flip",
+        "durationInFrames": 16
+      }
+    },
+    {
+      "id": "s2",
+      "template": "ProductReveal",
+      "durationInFrames": 208,
+      "props": {
+        "productName": "Pipeline Pilot",
+        "tagline": "Client management that shows which deals need you today",
+        "screenshotUrl": "samples/screenshots/pipeline-dashboard.svg",
+        "variant": "rise"
+      },
+      "transitionOut": {
+        "type": "wipe",
+        "durationInFrames": 8
+      }
+    },
+    {
+      "id": "s3",
+      "template": "FeatureSpotlight",
+      "durationInFrames": 194,
+      "props": {
+        "icon": "chart",
+        "title": "Stalled deal alerts",
+        "description": "Deals stuck in a stage turn amber so you can nudge them in time",
+        "layout": "stacked"
+      },
+      "transitionOut": {
+        "type": "slide",
+        "durationInFrames": 8
+      }
+    },
+    {
+      "id": "s4",
+      "template": "FeatureSpotlight",
+      "durationInFrames": 167,
+      "props": {
+        "icon": "bolt",
+        "title": "Deals by stage",
+        "description": "See every client deal from lead to won on one board",
+        "layout": "stacked"
+      },
+      "transitionOut": {
+        "type": "slide",
+        "durationInFrames": 8
+      }
+    },
+    {
+      "id": "s5",
+      "template": "FeatureSpotlight",
+      "durationInFrames": 131,
+      "props": {
+        "icon": "shield",
+        "title": "Revenue forecast",
+        "description": "Expected revenue by month, updated as deals move",
+        "layout": "stacked"
+      },
+      "transitionOut": {
+        "type": "fade",
+        "durationInFrames": 8
+      }
+    },
+    {
+      "id": "s6",
+      "template": "CTAEndCard",
+      "durationInFrames": 108,
+      "props": {
+        "cta": "Start your free trial",
+        "url": "pipelinepilot.example.com"
+      },
+      "transitionOut": {
+        "type": "none",
+        "durationInFrames": 0
+      }
+    }
+  ],
+  "audio": {},
+  "captions": []
+}

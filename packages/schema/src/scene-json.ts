@@ -1,8 +1,12 @@
 import {z} from 'zod';
 
+/** Transition kinds the renderer knows. 'none' is only valid for the last scene. */
+export const TRANSITION_TYPES = ['fade', 'slide', 'wipe', 'flip', 'clockWipe'] as const;
+export type TransitionType = (typeof TRANSITION_TYPES)[number];
+
 export const transitionOutSchema = z
   .object({
-    type: z.enum(['fade', 'slide', 'wipe', 'none']),
+    type: z.enum([...TRANSITION_TYPES, 'none']),
     durationInFrames: z.number().int().nonnegative(),
   })
   .superRefine(({durationInFrames, type}, context) => {
@@ -31,6 +35,28 @@ export const captionSchema = z
   })
   .refine(({endMs, startMs}) => endMs > startMs, 'endMs must be after startMs');
 
+/**
+ * Audio. Every field is optional on purpose: nothing plays unless a URL is given,
+ * so a missing sound file can never break a render by default.
+ * URLs are absolute, or paths inside packages/video/public (e.g. "audio/music/calm.mp3").
+ */
+export const audioSchema = z.object({
+  voiceoverUrl: z.string().min(1).optional(),
+  musicUrl: z.string().min(1).optional(),
+  /** Music volume 0..1 (default 0.25 in the renderer). */
+  musicVolume: z.number().min(0).max(1).optional(),
+  /** Music level while a voice-over or caption is active, as a multiple of musicVolume (default 0.35). */
+  duckTo: z.number().min(0).max(1).optional(),
+  /** Short sound effects. Each one plays only if its URL is set. */
+  sfx: z
+    .object({
+      transitionUrl: z.string().min(1).optional(),
+      entranceUrl: z.string().min(1).optional(),
+      volume: z.number().min(0).max(1).optional(),
+    })
+    .optional(),
+});
+
 export const sceneJsonSchema = z
   .object({
     version: z.literal(1),
@@ -40,12 +66,7 @@ export const sceneJsonSchema = z
       height: z.number().int().positive(),
     }),
     scenes: z.array(sceneSchema).min(1),
-    audio: z
-      .object({
-        voiceoverUrl: z.string().min(1).optional(),
-        musicUrl: z.string().min(1).optional(),
-      })
-      .default({}),
+    audio: audioSchema.default({}),
     captions: z.array(captionSchema).default([]),
   })
   .superRefine(({scenes}, context) => {
@@ -91,6 +112,7 @@ export const sceneJsonSchema = z
 
 export type SceneJSON = z.infer<typeof sceneJsonSchema>;
 export type Scene = z.infer<typeof sceneSchema>;
+export type SceneAudio = z.infer<typeof audioSchema>;
 export type TemplateSchemaRegistry = Record<string, z.ZodType>;
 
 export const getTotalDurationInFrames = (sceneJson: SceneJSON): number =>

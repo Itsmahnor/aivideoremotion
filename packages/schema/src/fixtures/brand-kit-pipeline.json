@@ -1,0 +1,21 @@
+{
+  "name": "Pipeline Pilot",
+  "logoUrl": "samples/logos/pipeline-pilot.svg",
+  "colors": {
+    "primary": "#2563EB",
+    "secondary": "#06B6D4",
+    "accent": "#F59E0B",
+    "background": "#0B1220",
+    "text": "#F8FAFC"
+  },
+  "gradient": {"enabled": false, "from": "#2563EB", "to": "#06B6D4", "angle": 135},
+  "visualStyle": "modern-saas",
+  "captions": {"enabled": false, "style": "clean"},
+  "fonts": {"heading": "Space Grotesk", "body": "Inter"},
+  "tone": "Confident, clear and practical",
+  "motionStyle": "energetic",
+  "rules": {
+    "dos": ["Use concrete nouns", "Lead with the benefit"],
+    "donts": ["No buzzwords like revolutionary", "No exclamation marks"]
+  }
+}

@@ -1,11 +1,11 @@
 import type Anthropic from '@anthropic-ai/sdk';
 import {
-  SCENE_COUNT,
   buildCatalogText,
   checkStoryboard,
   compileStoryboard,
   extractJsonFromText,
   getTotalDurationInFrames,
+  sceneCountFor,
   storyboardSchema,
   type PlanInput,
   type SceneJSON,
@@ -37,18 +37,18 @@ const OUTPUT_SHAPE = `JSON shape:
       "durationSec": 3.5,
       "props": { ...only props defined for that template... },
       "assetId": "optional id from the asset list (screenshot templates only)",
-      "focusRegionLabel": "optional region label of that asset (ScreenshotShowcase only)"
+      "focusRegionLabel": "optional region label of that asset (ScreenshotShowcase only)",
+      "transitionOut": "optional: fade | slide | wipe | flip | clockWipe. The transition into the NEXT scene. Leave it out unless you have a reason; the system picks a good one by scene role."
     }
   ]
 }`;
 
 export const buildUserMessage = ({brand, brief}: PlanInput): string => {
-  const [min, max] = SCENE_COUNT[brief.durationSec];
+  const [min, max] = sceneCountFor(brief.durationSec);
   const payload = {
-    
     brand: {name: brand.name, tone: brand.tone, motionStyle: brand.motionStyle, donts: brand.rules.donts},
     videoType: brief.subtype,
-    targetDurationSec: brief.durationSec,
+    targetDurationSec: brief.durationSec ?? 'auto',
     aspectRatio: brief.aspectRatio,
     audience: brief.details.audience,
     goal: brief.details.goal,
@@ -66,7 +66,8 @@ export const buildUserMessage = ({brand, brief}: PlanInput): string => {
       regionLabels: asset.focusRegions.map((region) => region.label),
     })),
   };
-   return `Create the video plan for this brief.\nScene count must be ${min}-${max}. Total duration must be within 10% of ${brief.durationSec}s.\nFirst scene: HookStatement, ProductReveal or CustomScene. Last scene: CTAEndCard (only once).\n\nBRIEF:\n${JSON.stringify(payload, null, 2)}\n\n${OUTPUT_SHAPE}`;
+  const length = brief.durationSec ? `Total duration must be within 10% of ${brief.durationSec}s.` : 'No target length: choose the length that fits the content.';
+  return `Create the video plan for this brief.\nScene count must be ${min}-${max}. ${length}\nFirst scene: HookStatement, ProductReveal or CustomScene. Last scene: CTAEndCard (only once).\n\nBRIEF:\n${JSON.stringify(payload, null, 2)}\n\n${OUTPUT_SHAPE}`;
 };
 
 // ---------------------------------------------------------------- mock planner (free; tests the whole app without Claude)
@@ -103,7 +104,9 @@ export const mockStoryboard = ({brief}: PlanInput): Storyboard => {
     60: [hook, reveal, showcase(), feature(0), feature(1), feature(2), steps, showcase(), cta],
     90: [hook, reveal, showcase(), feature(0), feature(1), feature(2), steps, showcase(), showcase(), showcase(), showcase(), cta],
   };
-  const scenes = (byLength[brief.durationSec] ?? byLength[30]!).map((scene, index) => ({...scene, id: `s${index + 1}`}));
+  // No target length ("auto"): use the 30s structure.
+  const chosen = byLength[brief.durationSec ?? 30] ?? byLength[30]!;
+  const scenes = chosen.map((scene, index) => ({...scene, id: `s${index + 1}`}));
   return {title: `Mock plan for ${details.productName}`, scenes};
 };
 
@@ -112,7 +115,6 @@ export const mockStoryboard = ({brief}: PlanInput): Storyboard => {
 /** Everything Claude needs in one text: role, skills, template catalog and the brief. Paste it into claude.ai. */
 export const buildFullPrompt = (input: PlanInput, skillsDir?: string): string =>
   [ROLE, loadSkills(input.brief.subtype, skillsDir), buildCatalogText(), buildUserMessage(input)].join('\n\n---\n\n');
-
 
 /** Takes a storyboard written by Claude in the chat, checks it against the same rules, and compiles it. */
 export const importStoryboard = (input: PlanInput, text: string): PlanResult => {

@@ -1,0 +1,58 @@
+{
+  "brand": {
+    "name": "Pipeline Pilot",
+    "tone": "confident, clear, practical",
+    "motionStyle": "energetic",
+    "donts": ["no buzzwords like 'revolutionary'", "no exclamation marks"],
+    "look": "dark"
+  },
+  "subtype": "product-overview",
+  "durationSec": 30,
+  "aspectRatio": "16:9",
+  "audience": "founders",
+  "goal": "signups",
+  "tone": "professional",
+  "productName": "Pipeline Pilot",
+  "oneLiner": "Client management that shows which deals need you today",
+  "problem": "Deals go quiet in the pipeline and nobody notices until they are lost",
+  "keyFeatures": [
+    {"title": "Stalled deal alerts", "description": "Deals stuck in a stage turn amber so you can nudge them in time"},
+    {"title": "Deals by stage", "description": "See every client deal from lead to won on one board"},
+    {"title": "Revenue forecast", "description": "Expected revenue by month, updated as deals move"}
+  ],
+  "cta": {"type": "trial", "text": "Start your free trial", "url": "pipelinepilot.example.com"},
+  "userPrompt": "Show the stalled deals panel and the forecast total. Confident and fast, no jargon.",
+  "assets": [
+    {
+      "id": "overview",
+      "kind": "screenshot",
+      "label": "Overview dashboard with stalled deals",
+      "description": "CRM dashboard with open deals, pipeline value and win rate cards, a pipeline-by-week chart and a Stalled deals panel on the right.",
+      "url": "samples/screenshots/pipeline-dashboard.svg",
+      "regions": [
+        {"label": "Stalled deals", "x": 0.74, "y": 0.18, "w": 0.19, "h": 0.56},
+        {"label": "Pipeline chart", "x": 0.19, "y": 0.3, "w": 0.53, "h": 0.62}
+      ]
+    },
+    {
+      "id": "deals",
+      "kind": "screenshot",
+      "label": "Deals by stage board",
+      "description": "Kanban board with columns Lead, Proposal, Negotiation and Won. One Negotiation card is highlighted as stalled for 21 days.",
+      "url": "samples/screenshots/pipeline-deals.svg",
+      "regions": [
+        {"label": "Stalled card", "x": 0.49, "y": 0.24, "w": 0.22, "h": 0.2}
+      ]
+    },
+    {
+      "id": "forecast",
+      "kind": "screenshot",
+      "label": "Revenue forecast",
+      "description": "Monthly forecast bar chart with a trend line and a Forecast total card showing $482k.",
+      "url": "samples/screenshots/pipeline-reports.svg",
+      "regions": [
+        {"label": "Forecast total", "x": 0.73, "y": 0.13, "w": 0.2, "h": 0.15}
+      ]
+    }
+  ]
+}

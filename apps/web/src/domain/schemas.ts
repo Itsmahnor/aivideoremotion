@@ -7,6 +7,7 @@ import {
   GOALS,
   TEMPLATE_NAMES,
   TONES,
+  TRANSITION_TYPES,
   aspectRatioSchema,
   uploadedAssetSchema,
 } from '@ai-video-studio/schema';
@@ -86,6 +87,8 @@ export const editableSceneSchema = z.object({
   props: z.record(z.string(), z.unknown()),
   assetId: z.string().optional(),
   focusRegionLabel: z.string().optional(),
+  /** Optional transition into the next scene. Empty = chosen automatically by scene role. */
+  transitionOut: z.enum(TRANSITION_TYPES).optional(),
 });
 
 export const scriptSchema = z.object({

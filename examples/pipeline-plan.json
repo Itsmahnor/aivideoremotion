@@ -1,0 +1,54 @@
+{
+  "title": "Pipeline Pilot: transition test",
+  "scenes": [
+    {
+      "id": "s1", "template": "HookStatement", "purpose": "Open with the pain", "durationSec": 6,
+      "transitionOut": "clockWipe",
+      "props": {"line": "Deals go quiet and nobody notices", "emphasisWords": ["quiet"], "subline": "Until they are already lost", "style": "word-by-word"}
+    },
+    {
+      "id": "s2", "template": "ProductReveal", "purpose": "Introduce the product", "durationSec": 7,
+      "transitionOut": "flip",
+      "props": {"productName": "Pipeline Pilot", "tagline": "See which deals need you today", "variant": "rise"}
+    },
+    {
+      "id": "s3", "template": "ScreenshotShowcase", "purpose": "Prove stalled deal alerts", "durationSec": 7,
+      "transitionOut": "slide",
+      "props": {"caption": "Stalled deals surface before they go cold", "callout": {"label": "Stalled deals", "position": "auto"}, "showCursor": true, "device": "browser"}
+    },
+    {
+      "id": "s4", "template": "FeatureSpotlight", "purpose": "Feature 1", "durationSec": 6,
+      "transitionOut": "wipe",
+      "props": {"icon": "bell", "title": "Stalled deal alerts", "description": "Deals stuck in a stage turn amber so you can nudge them in time", "layout": "right"}
+    },
+    {
+      "id": "s5", "template": "FeatureSpotlight", "purpose": "Feature 2", "durationSec": 6,
+      "transitionOut": "fade",
+      "props": {"icon": "layers", "title": "Deals by stage", "description": "See every client deal from lead to won on one board", "layout": "left"}
+    },
+    {
+      "id": "s6", "template": "FeatureSpotlight", "purpose": "Feature 3 (transition chosen automatically)", "durationSec": 6,
+      "props": {"icon": "chart", "title": "Revenue forecast", "description": "Expected revenue by month, updated as deals move", "layout": "right"}
+    },
+    {
+      "id": "s7", "template": "StepFlow", "purpose": "How to start (transition chosen automatically)", "durationSec": 8,
+      "props": {"title": "Up and running in 3 steps", "steps": [{"label": "Import your contacts"}, {"label": "Sort deals by stage", "description": "Drag cards across the board"}, {"label": "Act on stalled deals"}]}
+    },
+    {
+      "id": "s8", "template": "CustomScene", "purpose": "Layered layout: text, counter and device", "durationSec": 7,
+      "props": {
+        "background": "grid",
+        "layers": [
+          {"type": "text", "text": "One board for every client deal", "x": 0, "y": 14, "w": 46, "h": 40, "size": "headline", "enter": "slide-right"},
+          {"type": "counter", "value": 31, "suffix": "%", "x": 0, "y": 58, "w": 22, "h": 26, "size": "display", "color": "accent", "enter": "pop", "delaySec": 0.4},
+          {"type": "text", "text": "example win rate", "x": 24, "y": 68, "w": 24, "h": 10, "size": "body", "color": "muted", "enter": "fade", "delaySec": 0.7},
+          {"type": "device", "device": "browser", "x": 52, "y": 8, "w": 48, "h": 84, "enter": "slide-left", "delaySec": 0.2}
+        ]
+      }
+    },
+    {
+      "id": "s9", "template": "CTAEndCard", "purpose": "Call to action", "durationSec": 5,
+      "props": {"cta": "Start your free trial", "url": "pipelinepilot.example.com", "subline": "No credit card needed"}
+    }
+  ]
+}
